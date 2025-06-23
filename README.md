@@ -2,11 +2,44 @@
 
 This project is a weather dashboard built with React + Vite. It uses OpenWeatherMap API to display current conditions and a 5-day forecast.
 
-## Stack
+[![Live Site](https://img.shields.io/badge/Live-Vercel-black?logo=vercel)](https://weather-dashboard-three-indol.vercel.app)
 
-- React + Vite
-- Tailwind CSS
-- OpenWeatherMap API
+---
+
+## 🔧 Tech Stack
+
+- **React** + **Vite**
+- **Tailwind CSS** for styling
+- **OpenWeatherMap API**
+- **Vercel** for deployment
+
+------
+
+## 🔧 Tech Stack
+
+- **React** + **Vite**
+- **Tailwind CSS** for styling
+- **OpenWeatherMap API**
+- **Vercel** for deployment
+
+---
+
+## 🚀 Features
+
+- 🌤️ Current weather info (condition, icon, feels like temp)
+- 🌡️ Toggle between Celsius and Fahrenheit
+- 📱 Mobile-friendly and responsive
+- ⚡ Loading state while fetching
+- 🧠 Remembers unit preference with localStorage
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file in the root with:
+
+```env
+VITE_WEATHER_API_KEY=your_openweather_api_key
 
 # React + Vite
 
