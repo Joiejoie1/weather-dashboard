@@ -4,9 +4,9 @@ function App() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
-  const [unit, setUnit] = useState("C"); // default
+  const [unit, setUnit] = useState("C");
+  const [loading, setLoading] = useState(false); // New loading state
 
-  // Load preferred unit from localStorage on first render
   useEffect(() => {
     const savedUnit = localStorage.getItem("unit");
     if (savedUnit === "C" || savedUnit === "F") {
@@ -16,6 +16,7 @@ function App() {
 
   const handleSearch = async () => {
     setError(null);
+    setLoading(true);
     try {
       const res = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=YOUR_API_KEY`
@@ -28,12 +29,14 @@ function App() {
     } catch (err) {
       setWeather(null);
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const getConvertedTemp = (kelvin) => {
     if (unit === "C") return Math.round(kelvin - 273.15);
-    return Math.round((kelvin - 273.15) * 9/5 + 32);
+    return Math.round((kelvin - 273.15) * 9 / 5 + 32);
   };
 
   const toggleUnit = () => {
@@ -61,14 +64,26 @@ function App() {
           Search
         </button>
 
-        {error && <p className="text-red-500 mt-4">{error}</p>}
+        {loading && (
+          <div className="text-blue-500 mt-4 text-sm text-center">Loading...</div>
+        )}
 
-        {weather && (
+        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+
+        {weather && !loading && (
           <div className="mt-6 text-center">
             <h2 className="text-2xl font-semibold">{weather.name}</h2>
             <p className="text-lg">{weather.weather[0].main}</p>
+            <img
+              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+              alt={weather.weather[0].description}
+              className="mx-auto"
+            />
             <p className="text-4xl font-bold">
               {getConvertedTemp(weather.main.temp)}°{unit}
+            </p>
+            <p className="text-sm text-gray-600">
+              Feels like: {getConvertedTemp(weather.main.feels_like)}°{unit}
             </p>
             <button
               onClick={toggleUnit}
